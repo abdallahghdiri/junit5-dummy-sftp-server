@@ -24,28 +24,25 @@ public class SampleDummySftpServerDeclarativeTest {
     private String PASSWORD = "password";
 
     @Test
-    public void testPayloadUpload(DummySftpServerExtension.SftpIoOperations ioOperations) throws Exception {
+    public void testPayloadUpload(SftpGateway gateway) throws Exception {
 
         String content = "sample content";
         String path = "text.txt";
         put(path, content);
 
         // check that file was uploaded
-        Assertions.assertTrue(ioOperations.existsFile(path), "Failed to upload file to SFTP server");
+        Assertions.assertTrue(gateway.fileExists(path), "Failed to upload file to SFTP server");
 
         //get remote file contents
-        String remoteFileContents = ioOperations.getFileContent(path);
+        String remoteFileContents = gateway.getFile(path);
         // check remote file contents
         assertThat("Wrong contents for remote file", remoteFileContents, equalTo(content));
-
-
     }
 
     private void put(String path, String contents) throws Exception {
 
         JSch jsch = new JSch();
-        Session session = null;
-        session = jsch.getSession(USER, "127.0.0.1", 23454);
+        Session session = jsch.getSession(USER, "localhost", 23454);
         session.setConfig("StrictHostKeyChecking", "no");
         session.setPassword(PASSWORD);
         session.connect();

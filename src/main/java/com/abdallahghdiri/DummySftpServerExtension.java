@@ -6,9 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.extension.*;
 
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,13 +34,13 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
     }
 
     @Override
-    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return parameterContext.getParameter().getType() == SftpIoOperations.class; // only support sftp io operation parameter
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+        return parameterContext.getParameter().getType() == SftpGateway.class; // only support sftp io operation parameter
     }
 
     @Override
-    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
-        return new SftpIoOperationsImpl();
+    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+        return new SftpGatewayImpl(sftpServer.getPort(), sftpServer.getFileSystem());
     }
 
 
@@ -91,51 +88,5 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
             return new DummySftpServerExtension(port, credentials);
         }
     }
-
-    /**
-     * Sftp io operation
-     */
-    public interface SftpIoOperations {
-
-        /**
-         * Check if file exists for provided <code></code>
-         *
-         * @param path The file path
-         * @return
-         */
-        boolean existsFile(String path);
-
-        /**
-         * Get file contents of provided <code>path</code> using the <code>charset</code>.
-         *
-         * @param path    The file path
-         * @param charset The used charset
-         * @return
-         */
-        String getFileContent(String path, Charset charset) throws IOException;
-
-        /**
-         * Get UTF-8 encoded file contents of provided file <code>path</code>.
-         * @param path The file path
-         * @return
-         * @throws IOException
-         */
-        default String getFileContent(String path) throws IOException {
-            return getFileContent(path, StandardCharsets.UTF_8);
-        }
-    }
-
-    private class SftpIoOperationsImpl implements SftpIoOperations {
-        @Override
-        public boolean existsFile(String path) {
-            return sftpServer.existsFile(path);
-        }
-
-        @Override
-        public String getFileContent(String path, Charset charset) throws IOException {
-            return sftpServer.getFileContent(path, charset);
-        }
-    }
-
 
 }
