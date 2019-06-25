@@ -42,17 +42,17 @@ public class DummySftpServer implements AutoCloseable {
     }
 
     private SshServer start(FileSystem fileSystem) throws IOException {
-        SshServer server = SshServer.setUpDefaultServer();
-        server.setPort(port);
+        SshServer sshServer = SshServer.setUpDefaultServer();
+        sshServer.setPort(port);
         SimpleGeneratorHostKeyProvider keyPairProvider = new SimpleGeneratorHostKeyProvider();
-        server.setKeyPairProvider(keyPairProvider);
-        server.setPasswordAuthenticator(this::authenticate);
+        sshServer.setKeyPairProvider(keyPairProvider);
+        sshServer.setPasswordAuthenticator(this::authenticate);
         SftpSubsystemFactory sftpSubsystemFactory = new SftpSubsystemFactory.Builder().build();
-        server.setSubsystemFactories(singletonList(sftpSubsystemFactory));
+        sshServer.setSubsystemFactories(singletonList(sftpSubsystemFactory));
         // get the file system that was crated
-        server.setFileSystemFactory(session -> fileSystem);
-        server.start();
-        return server;
+        sshServer.setFileSystemFactory(session -> fileSystem);
+        sshServer.start();
+        return sshServer;
     }
 
     private boolean authenticate(

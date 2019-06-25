@@ -2,25 +2,31 @@ package com.abdallahghdiri;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.extension.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor
+/**
+ * A dummy SFTP server extension.
+ */
 public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCallback, ParameterResolver {
 
-    private final int port;
+    private int port;
     private final Map<String, String> credentials;
 
     private DummySftpServer sftpServer;
 
     public DummySftpServerExtension() {
-        port = 23454;
         credentials = new HashMap<>();
         credentials.put("username", "password");
+    }
+
+
+    public DummySftpServerExtension(int port, Map<String, String> credentials) {
+        this.port = port;
+        this.credentials = credentials;
     }
 
     @Override
@@ -45,22 +51,25 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
 
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class SftpServerExtensionBuilder {
+    public static class Builder {
 
         private int port;
         private Map<String, String> credentials = new HashMap<>();
 
-        public static SftpServerExtensionBuilder create() {
-            return new SftpServerExtensionBuilder();
+        /**
+         * @return The builder
+         */
+        public static Builder create() {
+            return new Builder();
         }
 
         /**
          * Set the port.
          *
-         * @param port
-         * @return
+         * @param port The server port
+         * @return The builder
          */
-        public SftpServerExtensionBuilder port(int port) {
+        public Builder port(int port) {
             this.port = port;
             return this;
         }
@@ -70,9 +79,9 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
          *
          * @param userName The username
          * @param password The password
-         * @return
+         * @return The builder
          */
-        public SftpServerExtensionBuilder addCredentials(String userName, String password) {
+        public Builder addCredentials(String userName, String password) {
             if (StringUtils.isNotBlank(userName) && StringUtils.isNotBlank(password)) {
                 credentials.put(userName, password);
             }
@@ -82,9 +91,16 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
         /**
          * Build the extension.
          *
-         * @return
+         * @return the extension
+         * @throws IllegalArgumentException if port ios invalid
          */
         public DummySftpServerExtension build() {
+            // validate port
+            if (port < 1 || port > 65535)
+                throw new IllegalArgumentException(
+                        "Port cannot be set to " + port
+                                + " because only ports between 1 and 65535 are valid."
+                );
             return new DummySftpServerExtension(port, credentials);
         }
     }
