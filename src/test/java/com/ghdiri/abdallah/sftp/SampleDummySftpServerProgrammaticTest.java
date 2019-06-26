@@ -1,4 +1,4 @@
-package com.ghdiri.abdallah;
+package com.ghdiri.abdallah.sftp;
 
 import org.junit.jupiter.api.extension.RegisterExtension;
 

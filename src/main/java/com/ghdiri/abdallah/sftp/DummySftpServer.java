@@ -1,4 +1,4 @@
-package com.ghdiri.abdallah;
+package com.ghdiri.abdallah.sftp;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sshd.server.SshServer;
@@ -18,7 +18,7 @@ import static java.util.Collections.singletonList;
 /**
  * A dummy SFTP server container.
  */
-public class DummySftpServer implements AutoCloseable {
+class DummySftpServer implements AutoCloseable {
 
     private final int port;
     private final Map<String, String> credentials;
@@ -29,15 +29,28 @@ public class DummySftpServer implements AutoCloseable {
         this.port = port;
         this.credentials = Collections.unmodifiableMap(credentials);
 
+        // create the file system
         try {
-            fileSystem = newLinux().build("FakeSftpServerRule@" + hashCode());
+            fileSystem = newLinux().build("InMemoryFileSystem");
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create an in-memory file system " +
+                    "(check if another test failed to release resources)", e);
+        }
+        // start the sftp server
+        try {
             server = start(fileSystem);
-        } catch (IOException exception) {
-            throw new RuntimeException("Failed to start the sftp server");
+        } catch (Exception e) {
+            try {
+                //attempt closing the file system so that it does not interfere with other tests
+                fileSystem.close();
+            } catch (Exception ce) {
+                // do nothing
+            }
+            throw new RuntimeException("Failed to start the sftp server", e);
         }
     }
 
-    public static DummySftpServer create(int port, Map<String, String> credentials) {
+    static DummySftpServer create(int port, Map<String, String> credentials) {
         return new DummySftpServer(port, credentials);
     }
 
@@ -68,8 +81,10 @@ public class DummySftpServer implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        server.stop();
         fileSystem.close();
+        if (server != null) { // if server fails to start
+            server.stop();
+        }
     }
 
     /**

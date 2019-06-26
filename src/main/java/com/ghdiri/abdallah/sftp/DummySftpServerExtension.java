@@ -1,4 +1,4 @@
-package com.ghdiri.abdallah;
+package com.ghdiri.abdallah.sftp;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,6 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
         credentials = new HashMap<>();
         credentials.put("username", "password");
     }
-
 
     public DummySftpServerExtension(int port, Map<String, String> credentials) {
         this.port = port;
@@ -50,6 +49,9 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
     }
 
 
+    /**
+     * A {@link DummySftpServerExtension} builder.
+     */
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Builder {
 
@@ -95,12 +97,6 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
          * @throws IllegalArgumentException if port ios invalid
          */
         public DummySftpServerExtension build() {
-            // validate port
-            if (port < 1 || port > 65535)
-                throw new IllegalArgumentException(
-                        "Port cannot be set to " + port
-                                + " because only ports between 1 and 65535 are valid."
-                );
             return new DummySftpServerExtension(port, credentials);
         }
     }

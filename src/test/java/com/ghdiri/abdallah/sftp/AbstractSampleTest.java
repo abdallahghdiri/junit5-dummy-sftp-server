@@ -1,4 +1,4 @@
-package com.ghdiri.abdallah;
+package com.ghdiri.abdallah.sftp;
 
 import com.jcraft.jsch.Session;
 import org.junit.jupiter.api.Assertions;

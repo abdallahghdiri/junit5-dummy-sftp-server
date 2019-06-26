@@ -1,4 +1,4 @@
-package com.ghdiri.abdallah;
+package com.ghdiri.abdallah.sftp;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -7,7 +7,6 @@ import com.jcraft.jsch.Session;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.function.Consumer;
 
 /**
  * A base test class.

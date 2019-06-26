@@ -1,9 +1,8 @@
-package com.ghdiri.abdallah;
+package com.ghdiri.abdallah.sftp;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -11,7 +10,10 @@ import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.*;
 
 /**
  * A {@link SftpGateway} implementation.
@@ -67,12 +69,13 @@ class SftpGatewayImpl implements SftpGateway {
     @Override
     public void recursiveDelete(String... paths) throws IOException {
         for (String path : paths) {
-            try (Stream<Path> traverser = Files.walk(fs.getPath(path));) {
-                traverser.sorted(Comparator.reverseOrder())
-                        .map(Path::toFile)
-                        .forEach(File::delete);
+            try (Stream<Path> traverser = Files.walk(fs.getPath(path))) {
+                List<Path> walkedPaths = traverser
+                        .sorted(Comparator.reverseOrder()).collect(toList());
+                for (Path nioPath : walkedPaths) {
+                    Files.deleteIfExists(nioPath);
+                }
             }
-
         }
     }
 }
