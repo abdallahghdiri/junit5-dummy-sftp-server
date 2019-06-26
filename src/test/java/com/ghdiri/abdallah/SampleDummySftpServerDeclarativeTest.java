@@ -1,4 +1,4 @@
-package com.abdallahghdiri;
+package com.ghdiri.abdallah;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -6,10 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
  * A sample JUNIT 5 declarative extension test.
  */
 @ExtendWith(DummySftpServerExtension.class)
-public class SampleDummySftpServerDeclarativeTest extends BaseSampleTest {
-
-    private String USER = "username";
-    private String PASSWORD = "password";
+public class SampleDummySftpServerDeclarativeTest extends AbstractSampleTest {
 
     @Override
     protected int getPort(SftpGateway gateway) {
@@ -18,11 +15,11 @@ public class SampleDummySftpServerDeclarativeTest extends BaseSampleTest {
 
     @Override
     protected String getUserName() {
-        return USER;
+        return DEFAULT_USER;
     }
 
     @Override
     protected String getPassword() {
-        return PASSWORD;
+        return DEFAULT_PASSWORD;
     }
 }

@@ -1,4 +1,4 @@
-package com.abdallahghdiri;
+package com.ghdiri.abdallah;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

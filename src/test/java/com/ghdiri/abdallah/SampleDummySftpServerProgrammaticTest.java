@@ -1,11 +1,11 @@
-package com.abdallahghdiri;
+package com.ghdiri.abdallah;
 
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 /**
  * A sample JUNIT 5 declarative programmatic test.
  */
-public class SampleDummySftpServerProgrammaticTest extends BaseSampleTest {
+public class SampleDummySftpServerProgrammaticTest extends AbstractSampleTest {
 
 
     private int PORT = 1234;

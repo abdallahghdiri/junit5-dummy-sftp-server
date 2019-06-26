@@ -1,4 +1,4 @@
-package com.abdallahghdiri;
+package com.ghdiri.abdallah;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sshd.server.SshServer;

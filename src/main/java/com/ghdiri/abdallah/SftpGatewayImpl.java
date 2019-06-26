@@ -1,4 +1,4 @@
-package com.abdallahghdiri;
+package com.ghdiri.abdallah;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import java.util.stream.Stream;
  * A {@link SftpGateway} implementation.
  */
 @RequiredArgsConstructor(access = AccessLevel.PACKAGE)
-public class SftpGatewayImpl implements SftpGateway {
+class SftpGatewayImpl implements SftpGateway {
 
     private final int port;
     private final FileSystem fs;

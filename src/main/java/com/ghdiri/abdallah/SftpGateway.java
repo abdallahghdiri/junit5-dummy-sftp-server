@@ -1,4 +1,4 @@
-package com.abdallahghdiri;
+package com.ghdiri.abdallah;
 
 import java.io.IOException;
 import java.io.InputStream;
