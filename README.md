@@ -1,4 +1,7 @@
 # JUNIT5 DUMMY SFT SERVER
+
+[![Build Status](https://travis-ci.org/abdallahghdiri/junit5-dummy-sftp-server.svg?branch=master)](https://travis-ci.org/abdallahghdiri/junit5-dummy-sftp-server)
+
 Junit5 dummy sftp server project contains a junit extension that starts an in-memory SFTP server for each test
 
 ## Usage 
