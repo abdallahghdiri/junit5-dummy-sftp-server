@@ -5,10 +5,30 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ghdiri.abdallah</groupId>
     <artifactId>junit5-dummy-sftp-server</artifactId>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>JUNIT 5 dummy SFTP server</name>
+
+    <name>${project.groupId}:${project.artifactId}</name>
     <description>JUNIT 5 dummy SFTP server test extension</description>
+    <url>https://github.com/abdallahghdiri/junit5-dummy-sftp-server</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Abdallah Ghdiri</name>
+            <email>abdallah@ghdiri.com</email>
+            <url>https://abdallah.ghdiri.com</url>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git://github.com/abdallahghdiri/junit5-dummy-sftp-server.git</connection>
+        <developerConnection>scm:git:ssh://github.com:abdallahghdiri/junit5-dummy-sftp-server.git</developerConnection>
+        <url>http://github.com/abdallahghdiri/junit5-dummy-sftp-server/tree/master</url>
+    </scm>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -17,7 +37,6 @@
     </properties>
 
     <dependencies>
-
         <!--APACHE MINA SSHD-->
         <dependency>
             <groupId>org.apache.sshd</groupId>
@@ -85,6 +104,6 @@
             <version>0.1.55</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
 </project>
