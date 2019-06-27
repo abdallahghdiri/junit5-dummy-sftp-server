@@ -1,0 +1,7 @@
+language: java
+sudo: false # faster builds
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+jdk:
+  - openjdk8
+
+script: mvn test javadoc:javadoc

@@ -21,18 +21,6 @@ public class SftpOperationsTest extends AbstractTest {
 
     private static String SAMPLE_CONTENTS = "sample";
 
-
-    ///**
-    // * Programmatic declaration for credential definition flexibility.
-    // */
-    //@RegisterExtension
-    //static final DummySftpServerExtension extension = DummySftpServerExtension.Builder.create()
-    //        .port(1234)
-    //        .addCredentials("admin", "all-powerful")
-    //        .addCredentials("user", "let-me-in")
-    //        .build();
-
-
     @Test
     void testStringFileUpload(SftpGateway gateway) throws Exception {
 
