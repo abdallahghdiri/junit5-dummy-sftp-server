@@ -21,6 +21,7 @@ public interface SftpGateway {
     /**
      * Check if a file exists.
      *
+     * @param path The destination file path
      * @return <code>true</code> if the file is found
      */
     boolean fileExists(String path);
