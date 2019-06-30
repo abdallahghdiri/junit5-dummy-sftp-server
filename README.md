@@ -1,4 +1,4 @@
-# JUNIT5 DUMMY SFT SERVER
+# JUNIT5 DUMMY SFTP SERVER
 
 [![Build Status](https://travis-ci.org/abdallahghdiri/junit5-dummy-sftp-server.svg?branch=master)](https://travis-ci.org/abdallahghdiri/junit5-dummy-sftp-server)
 
