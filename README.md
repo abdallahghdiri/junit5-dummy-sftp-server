@@ -4,6 +4,18 @@
 
 Junit5 dummy sftp server project contains a junit extension that starts an in-memory SFTP server for each test
 
+## Dependency
+
+The library can be pulled from the central maven repository, this dependency should be added to the pom.xml file:
+
+```xml
+<dependency>
+  <groupId>com.ghdiri.abdallah</groupId>
+  <artifactId>junit5-dummy-sftp-server</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
+
 ## Usage 
 
 ### Declarative definition
@@ -14,6 +26,7 @@ Declarative definition starts a server on a random port and adds the user **user
 @ExtendWith(DummySftpServerExtension.class)
 public class TestClass{
 }
+
 ```
 
 ### Programmatic definition
