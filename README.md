@@ -1,6 +1,6 @@
 # JUNIT5 DUMMY SFTP SERVER
 
-[![Build Status](https://travis-ci.org/abdallahghdiri/junit5-dummy-sftp-server.svg?branch=master)](https://travis-ci.org/abdallahghdiri/junit5-dummy-sftp-server)
+[![Build Status](https://travis-ci.org/abdallahghdiri/junit5-dummy-sftp-server.svg?branch=master)](https://travis-ci.org/abdallahghdiri/junit5-dummy-sftp-server) [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=abdallahghdiri_junit5-dummy-sftp-server&metric=coverage)](https://sonarcloud.io/dashboard?id=abdallahghdiri_junit5-dummy-sftp-server)
 
 Junit5 dummy sftp server project contains a junit extension that starts an in-memory SFTP server for each test
 
