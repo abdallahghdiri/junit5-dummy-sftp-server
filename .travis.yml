@@ -1,7 +1,13 @@
 language: java
 sudo: false # faster builds
+addons:
+  sonarcloud:
+    organization: "abdallahghdiri"
+    token:
+      secure: RmQnVV0XFiHjW8oX5IV7HXoDdEMcXVKeCPehoul2SyG/owoO4/hL0hMEBm/U1VkwsOgUlgn5nvljuL6cQC6wSRdA2M/UWb9oEKoo9HKgoNIJARceHbqNIbVVowtzIsyn+BY/2HKNoXEKJmiuXiY5nEwHiFNN/utQ3zdr8cg61d8W2A/8wCBwCXfDrR9C5ltZ9vvBAZucyCxQjq+eP2wAxnf1lSrs9gRbtpWSDwnh1LDzscSikbGQr0g1MoRdHatvA3nGLATBkYAoQ3lXa2XbgO/51UABgshdrfQMwKLMMHvlfkf3sqJ69QPJGpDcBMJguckT5SANv17cJSwO1DM2jzKF0TzDC/DkfxuKElI7tiecbrvho7DK3rgTMEqnH638h1iXZ3YASn2Ba96MRidf290tqcDOTQgYyHJUlah09D10g15LDyEjKvZghHbIo4baRK4ERITqjX9K0WHzEQvdKtTV8J2TF3oFYsiPDcNOJEpaBtw/D5MYkhf18viZ1UkDwM0VSbHWC18RKzQE/UCDk4AlULqcE46fFYglp/OEBWjs+PbsF9znOoNLL0DS8S6L41K600JkO0hB2Z6zLrIEwuYwg2SeOzYupa4fpPdbs/MGwwxBuCnmIArgX6bFy/dfkD+pmn1Rz+Yzfg7a1mljnQJ1S0gCYoJ5VnVfcJLwvlc=
+
 install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
 jdk:
   - openjdk8
 
-script: mvn test javadoc:javadoc
+script: mvn org.jacoco:jacoco-maven-plugin:prepare-agent test javadoc:javadoc sonar:sonar -Dsonar.projectKey=abdallahghdiri_junit5-dummy-sftp-server
