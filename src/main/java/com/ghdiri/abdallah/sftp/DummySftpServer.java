@@ -69,7 +69,7 @@ class DummySftpServer implements AutoCloseable {
          * In order to use the file system for multiple channels/sessions we
          * have to use a file system wrapper whose close() does nothing.
          */
-        server.setFileSystemFactory(session -> new DoNotClose(fileSystem));
+        sshServer.setFileSystemFactory(session -> new DoNotClose(fileSystem));
         sshServer.start();
         return sshServer;
     }
