@@ -4,6 +4,8 @@
 
 Junit5 dummy sftp server project contains a junit extension that starts an in-memory SFTP server for each test
 
+This project is heavily inspired by [stefanbirkner](https://github.com/stefanbirkner)'s [In Memory JUNIT 4 SFTP rule](https://github.com/stefanbirkner/fake-sftp-server-rule)
+
 ## Dependency
 
 The library can be pulled from the central maven repository, this dependency should be added to the pom.xml file:
@@ -12,7 +14,7 @@ The library can be pulled from the central maven repository, this dependency sho
 <dependency>
   <groupId>com.ghdiri.abdallah</groupId>
   <artifactId>junit5-dummy-sftp-server</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
 </dependency>
 ```
 
