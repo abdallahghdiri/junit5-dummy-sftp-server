@@ -7,10 +7,13 @@ import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
 
 import java.io.IOException;
-import java.nio.file.FileSystem;
+import java.nio.file.*;
+import java.nio.file.attribute.UserPrincipalLookupService;
+import java.nio.file.spi.FileSystemProvider;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 import static com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder.newLinux;
 import static java.util.Collections.singletonList;
@@ -62,8 +65,11 @@ class DummySftpServer implements AutoCloseable {
         sshServer.setPasswordAuthenticator(this::authenticate);
         SftpSubsystemFactory sftpSubsystemFactory = new SftpSubsystemFactory.Builder().build();
         sshServer.setSubsystemFactories(singletonList(sftpSubsystemFactory));
-        // get the file system that was crated
-        sshServer.setFileSystemFactory(session -> fileSystem);
+        /* When a channel is closed SshServer calls close() on the file system.
+         * In order to use the file system for multiple channels/sessions we
+         * have to use a file system wrapper whose close() does nothing.
+         */
+        server.setFileSystemFactory(session -> new DoNotClose(fileSystem));
         sshServer.start();
         return sshServer;
     }
@@ -99,5 +105,82 @@ class DummySftpServer implements AutoCloseable {
      */
     public FileSystem getFileSystem() {
         return fileSystem;
+    }
+
+
+    private static class DoNotClose extends FileSystem {
+        final FileSystem fileSystem;
+
+        DoNotClose(
+                FileSystem fileSystem
+        ) {
+            this.fileSystem = fileSystem;
+        }
+
+        @Override
+        public FileSystemProvider provider() {
+            return fileSystem.provider();
+        }
+
+        @Override
+        public void close(
+        ) throws IOException {
+            //will not be closed
+        }
+
+        @Override
+        public boolean isOpen() {
+            return fileSystem.isOpen();
+        }
+
+        @Override
+        public boolean isReadOnly() {
+            return fileSystem.isReadOnly();
+        }
+
+        @Override
+        public String getSeparator() {
+            return fileSystem.getSeparator();
+        }
+
+        @Override
+        public Iterable<Path> getRootDirectories() {
+            return fileSystem.getRootDirectories();
+        }
+
+        @Override
+        public Iterable<FileStore> getFileStores() {
+            return fileSystem.getFileStores();
+        }
+
+        @Override
+        public Set<String> supportedFileAttributeViews() {
+            return fileSystem.supportedFileAttributeViews();
+        }
+
+        @Override
+        public Path getPath(
+                String first,
+                String... more
+        ) {
+            return fileSystem.getPath(first, more);
+        }
+
+        @Override
+        public PathMatcher getPathMatcher(
+                String syntaxAndPattern
+        ) {
+            return fileSystem.getPathMatcher(syntaxAndPattern);
+        }
+
+        @Override
+        public UserPrincipalLookupService getUserPrincipalLookupService() {
+            return fileSystem.getUserPrincipalLookupService();
+        }
+
+        @Override
+        public WatchService newWatchService() throws IOException {
+            return fileSystem.newWatchService();
+        }
     }
 }
