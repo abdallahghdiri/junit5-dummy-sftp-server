@@ -10,14 +10,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Test for different SFTP operation available through the {@link SftpGateway} accepted test method parameter.
  */
 @ExtendWith(DummySftpServerExtension.class)
-public class SftpOperationsTest extends AbstractTest {
+class SftpOperationsTest extends AbstractTest {
 
     private static String SAMPLE_CONTENTS = "sample";
 
@@ -45,8 +45,8 @@ public class SftpOperationsTest extends AbstractTest {
     @Test
     void testRecursiveDirectoryDelete(SftpGateway gateway) throws Exception {
 
-        String path= "/root/sub-dir/string-file.txt";
-        String secondPath= "/root/stream-file.txt";
+        String path = "/root/sub-dir/string-file.txt";
+        String secondPath = "/root/stream-file.txt";
         testInDefaultContext(gateway, () -> {
             gateway.createDirectories("/root/sub-dir");
             gateway.putFile(path, SAMPLE_CONTENTS);
@@ -66,7 +66,4 @@ public class SftpOperationsTest extends AbstractTest {
         String stringContents = new String(bytes);
         assertThat("Bad contents", stringContents, equalTo(expectedContents));
     }
-
-
-
 }

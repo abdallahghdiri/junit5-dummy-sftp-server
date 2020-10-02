@@ -10,13 +10,13 @@ import java.io.IOException;
 import java.nio.file.FileSystem;
 
 import static com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder.newLinux;
-import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.mockito.Mockito.mock;
 
 /**
  * Tests trying to provoke managed exception and check expected behaviour.
  */
-public class ManagedExceptionsTest {
+class ManagedExceptionsTest {
 
     /**
      * Max available port is 65535.

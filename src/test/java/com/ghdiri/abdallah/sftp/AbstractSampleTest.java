@@ -4,16 +4,16 @@ import com.jcraft.jsch.Session;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * A base sample test. A {@link DummySftpServerExtension} showcase.
  */
-public abstract class AbstractSampleTest extends AbstractTest {
+abstract class AbstractSampleTest extends AbstractTest {
 
     @Test
-    public void testPayloadUpload(SftpGateway gateway) throws Exception {
+    void testPayloadUpload(SftpGateway gateway) throws Exception {
 
         String content = "sample content";
         String path = "text.txt";
