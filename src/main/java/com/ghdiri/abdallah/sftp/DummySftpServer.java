@@ -6,13 +6,8 @@ import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
 import org.apache.sshd.server.session.ServerSession;
 import org.apache.sshd.server.subsystem.sftp.SftpSubsystemFactory;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileStore;
-import java.nio.file.FileSystem;
-import java.nio.file.Path;
-import java.nio.file.PathMatcher;
-import java.nio.file.WatchService;
+import java.nio.file.*;
 import java.nio.file.attribute.UserPrincipalLookupService;
 import java.nio.file.spi.FileSystemProvider;
 import java.util.Collections;
@@ -58,14 +53,15 @@ class DummySftpServer implements AutoCloseable {
         }
     }
 
-    static DummySftpServer create(int port, Path hostKey, Map<String, String> credentials) {
-        return new DummySftpServer(port, hostKey, credentials);
+    static DummySftpServer create(int port, Path hostKeyPath, Map<String, String> credentials) {
+        return new DummySftpServer(port, hostKeyPath, credentials);
     }
 
-    private SshServer start(FileSystem fileSystem, Path hostKey) throws IOException {
+    private SshServer start(FileSystem fileSystem, Path hostKeyPath) throws IOException {
         SshServer sshServer = SshServer.setUpDefaultServer();
         sshServer.setPort(port);
-        SimpleGeneratorHostKeyProvider keyPairProvider = new SimpleGeneratorHostKeyProvider(hostKey);
+        SimpleGeneratorHostKeyProvider keyPairProvider = hostKeyPath != null ? new SimpleGeneratorHostKeyProvider(hostKeyPath)
+                : new SimpleGeneratorHostKeyProvider();
         sshServer.setKeyPairProvider(keyPairProvider);
         sshServer.setPasswordAuthenticator(this::authenticate);
         SftpSubsystemFactory sftpSubsystemFactory = new SftpSubsystemFactory.Builder().build();
@@ -89,7 +85,6 @@ class DummySftpServer implements AutoCloseable {
                 credentials.get(username),
                 password);
     }
-
 
     @Override
     public void close() throws Exception {
