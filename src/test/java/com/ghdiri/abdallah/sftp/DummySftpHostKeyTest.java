@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * A test to validate the behaviour of passing a host-key and validating against it
  */
-public class DummySftpHostKeyTest extends AbstractTest {
+class DummySftpHostKeyTest extends AbstractTest {
     private static final int PORT = 1234;
     private static final String USER = "ftp-user";
     private static final String PASSWORD = "ftp-password";
@@ -35,7 +35,7 @@ public class DummySftpHostKeyTest extends AbstractTest {
             .build();
 
     @Test
-    public void testPayloadUploadWithHostKey(SftpGateway gateway) throws Exception {
+    void testPayloadUploadWithHostKey(SftpGateway gateway) throws Exception {
         String content = "sample content";
         String path = "text.txt";
 
@@ -52,7 +52,7 @@ public class DummySftpHostKeyTest extends AbstractTest {
     }
 
     @Test
-    public void testConnectionFailedWithInvalidHostKey() {
+    void testConnectionFailedWithInvalidHostKey() {
         JSchException actual = assertThrows(JSchException.class,
                 () -> createSessionWithHostKey(INVALID_HOST_KEY)
         );
@@ -75,5 +75,4 @@ public class DummySftpHostKeyTest extends AbstractTest {
         String knownHostLine = "[localhost]:" + PORT + " ssh-rsa " + hostKey + "\n";
         return new ByteArrayInputStream(knownHostLine.getBytes(StandardCharsets.UTF_8));
     }
-
 }
