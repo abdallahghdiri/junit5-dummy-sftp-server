@@ -6,11 +6,9 @@ import org.junit.jupiter.api.extension.RegisterExtension;
  * A sample JUNIT 5 declarative programmatic test.
  */
 public class SampleDummySftpServerProgrammaticTest extends AbstractSampleTest {
-
-
-    private int PORT = 1234;
-    private String USER = "ftp-user";
-    private String PASSWORD = "ftp-password";
+    private static final int PORT = 1234;
+    private static final String USER = "ftp-user";
+    private static final String PASSWORD = "ftp-password";
 
     @RegisterExtension
     static final DummySftpServerExtension extension = DummySftpServerExtension.Builder.create()

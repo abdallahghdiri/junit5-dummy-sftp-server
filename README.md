@@ -46,6 +46,8 @@ public class TestClass{
 }
 ```
 
+An optional HOST Key can be configured for the in-memory SFTP server by passing the Key path to the ```hostKey(Path hostKeyPath)``` ```DummySftpServerExtension.Builder``` method
+
 ### Sample test
 
 An **SftpGateway** instance can be injected as a test method parameter providing basic SFTP operations.

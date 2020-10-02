@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
  * A base test class.
  */
 public abstract class AbstractTest {
-
     protected static final String DEFAULT_USER = "username";
     protected static final String DEFAULT_PASSWORD = "password";
 
@@ -40,7 +39,6 @@ public abstract class AbstractTest {
     }
 
     protected Session createSession(int port, String username, String password) throws Exception {
-
         JSch jsch = new JSch();
         Session session = jsch.getSession(username, "localhost", port);
         session.setConfig("StrictHostKeyChecking", "no");
@@ -50,7 +48,6 @@ public abstract class AbstractTest {
         return session;
     }
 
-
     protected ChannelSftp openChannel(Session session) throws Exception {
         Channel channel = session.openChannel("sftp");
         channel.connect();
@@ -58,7 +55,6 @@ public abstract class AbstractTest {
     }
 
     protected void put(Session session, String path, String contents) throws Exception {
-
         Channel channel = session.openChannel("sftp");
         channel.connect();
         ChannelSftp sftpChannel = (ChannelSftp) channel;
@@ -72,8 +68,7 @@ public abstract class AbstractTest {
         void run() throws Exception;
     }
 
-    public interface CheckedConsumer<T>{
+    public interface CheckedConsumer<T> {
         void accept(T t) throws Exception;
     }
-
 }

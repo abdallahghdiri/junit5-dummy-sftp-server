@@ -28,7 +28,7 @@ class DummySftpServer implements AutoCloseable {
     private final FileSystem fileSystem;
     private final SshServer server;
 
-    private DummySftpServer(int port, Map<String, String> credentials) {
+    private DummySftpServer(int port, Path hostKey, Map<String, String> credentials) {
         this.port = port;
         this.credentials = Collections.unmodifiableMap(credentials);
 
@@ -41,7 +41,7 @@ class DummySftpServer implements AutoCloseable {
         }
         // start the sftp server
         try {
-            server = start(fileSystem);
+            server = start(fileSystem, hostKey);
         } catch (Exception e) {
             try {
                 //attempt closing the file system so that it does not interfere with other tests
@@ -53,14 +53,15 @@ class DummySftpServer implements AutoCloseable {
         }
     }
 
-    static DummySftpServer create(int port, Map<String, String> credentials) {
-        return new DummySftpServer(port, credentials);
+    static DummySftpServer create(int port, Path hostKeyPath, Map<String, String> credentials) {
+        return new DummySftpServer(port, hostKeyPath, credentials);
     }
 
-    private SshServer start(FileSystem fileSystem) throws IOException {
+    private SshServer start(FileSystem fileSystem, Path hostKeyPath) throws IOException {
         SshServer sshServer = SshServer.setUpDefaultServer();
         sshServer.setPort(port);
-        SimpleGeneratorHostKeyProvider keyPairProvider = new SimpleGeneratorHostKeyProvider();
+        SimpleGeneratorHostKeyProvider keyPairProvider = hostKeyPath != null ? new SimpleGeneratorHostKeyProvider(hostKeyPath)
+                : new SimpleGeneratorHostKeyProvider();
         sshServer.setKeyPairProvider(keyPairProvider);
         sshServer.setPasswordAuthenticator(this::authenticate);
         SftpSubsystemFactory sftpSubsystemFactory = new SftpSubsystemFactory.Builder().build();
@@ -71,6 +72,7 @@ class DummySftpServer implements AutoCloseable {
          */
         sshServer.setFileSystemFactory(session -> new DoNotClose(fileSystem));
         sshServer.start();
+
         return sshServer;
     }
 
@@ -83,7 +85,6 @@ class DummySftpServer implements AutoCloseable {
                 credentials.get(username),
                 password);
     }
-
 
     @Override
     public void close() throws Exception {

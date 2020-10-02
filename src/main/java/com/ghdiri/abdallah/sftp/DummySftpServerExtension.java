@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.extension.*;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,23 +15,26 @@ import java.util.Map;
 public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCallback, ParameterResolver {
 
     private int port;
+    private final Path hostKeyPath;
     private final Map<String, String> credentials;
 
     private DummySftpServer sftpServer;
 
     public DummySftpServerExtension() {
+        hostKeyPath = null;
         credentials = new HashMap<>();
         credentials.put("username", "password");
     }
 
-    public DummySftpServerExtension(int port, Map<String, String> credentials) {
+    public DummySftpServerExtension(int port, Path hostKeyPath, Map<String, String> credentials) {
         this.port = port;
+        this.hostKeyPath = hostKeyPath;
         this.credentials = credentials;
     }
 
     @Override
-    public void beforeEach(ExtensionContext extensionContext) throws Exception {
-        sftpServer = DummySftpServer.create(port, credentials);
+    public void beforeEach(ExtensionContext extensionContext) {
+        sftpServer = DummySftpServer.create(port, hostKeyPath, credentials);
     }
 
     @Override
@@ -56,7 +60,8 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
     public static class Builder {
 
         private int port;
-        private Map<String, String> credentials = new HashMap<>();
+        private Path hostKeyPath;
+        private final Map<String, String> credentials = new HashMap<>();
 
         /**
          * @return The builder
@@ -73,6 +78,18 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
          */
         public Builder port(int port) {
             this.port = port;
+            return this;
+        }
+
+        /**
+         * Set the HOST Key path.
+         * Defining a HOST Key is not required as one will be generated automatically if not needed.
+         *
+         * @param hostKeyPath The path to HOST Key certificate
+         * @return The builder
+         */
+        public Builder hostKey(Path hostKeyPath) {
+            this.hostKeyPath = hostKeyPath;
             return this;
         }
 
@@ -97,7 +114,7 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
          * @throws IllegalArgumentException if port ios invalid
          */
         public DummySftpServerExtension build() {
-            return new DummySftpServerExtension(port, credentials);
+            return new DummySftpServerExtension(port, hostKeyPath, credentials);
         }
     }
 
