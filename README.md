@@ -14,7 +14,7 @@ The library can be pulled from the central maven repository, this dependency sho
 <dependency>
   <groupId>com.ghdiri.abdallah</groupId>
   <artifactId>junit5-dummy-sftp-server</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0</version>
 </dependency>
 ```
 
