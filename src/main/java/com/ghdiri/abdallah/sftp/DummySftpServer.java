@@ -81,9 +81,9 @@ class DummySftpServer implements AutoCloseable {
             String password,
             ServerSession session
     ) {
-        return StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && Objects.equals(
+        return credentials.isEmpty() || (StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password) && Objects.equals(
                 credentials.get(username),
-                password);
+                password));
     }
 
     @Override
