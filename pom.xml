@@ -42,7 +42,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <apache.sshd.version>2.2.0</apache.sshd.version>
+        <apache.sshd.version>2.7.0</apache.sshd.version>
     </properties>
 
     <dependencies>
