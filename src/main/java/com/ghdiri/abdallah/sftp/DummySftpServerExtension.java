@@ -53,6 +53,13 @@ public class DummySftpServerExtension implements AfterEachCallback, BeforeEachCa
     }
 
 
+    public int getPort() {
+        if (sftpServer == null) {
+            return port;
+        }
+        return sftpServer.getPort();
+    }
+
     /**
      * A {@link DummySftpServerExtension} builder.
      */
